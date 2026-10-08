@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAvailableStock } from "@/lib/backend/hooks";
 import { cart, useCart } from "@/lib/cart";
 import { QuantityInput } from "./quantity-input";
 
-export function AddToCart({ slug, stock }: { slug: string; stock: number }) {
+export function AddToCart({ slug }: { slug: string }) {
+  const stock = useAvailableStock(slug);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const inCart = useCart().lines.find((l) => l.slug === slug)?.quantity ?? 0;

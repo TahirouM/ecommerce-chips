@@ -49,7 +49,7 @@ export function ProductCard({ product }: { product: Product }) {
           <Price product={product} className="text-base" />
           <div className="flex gap-1.5">
             <FavoriteButton slug={product.slug} name={product.name} />
-            <QuickAdd slug={product.slug} stock={product.stock} name={product.name} />
+            <QuickAdd slug={product.slug} name={product.name} />
           </div>
         </div>
       </div>

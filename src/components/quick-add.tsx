@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useAvailableStock } from "@/lib/backend/hooks";
 import { cart, useCart } from "@/lib/cart";
 
-export function QuickAdd({ slug, stock, name }: { slug: string; stock: number; name: string }) {
+export function QuickAdd({ slug, name }: { slug: string; name: string }) {
+  const stock = useAvailableStock(slug);
   const [added, setAdded] = useState(false);
   const inCart = useCart().lines.find((l) => l.slug === slug)?.quantity ?? 0;
   const full = inCart >= stock;

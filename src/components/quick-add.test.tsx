@@ -14,7 +14,7 @@ describe("QuickAdd", () => {
   it("ajoute un sachet au panier et confirme visuellement", async () => {
     render(
       <>
-        <QuickAdd slug="sel-de-mer" stock={80} name="Sel de mer" />
+        <QuickAdd slug="sel-de-mer" name="Sel de mer" />
         <Count />
       </>,
     );
@@ -24,14 +24,14 @@ describe("QuickAdd", () => {
   });
 
   it("se désactive quand tout le stock est dans le panier", async () => {
-    render(<QuickAdd slug="habanero-extreme" stock={6} name="Habanero extrême" />);
+    render(<QuickAdd slug="habanero-extreme" name="Habanero extrême" />);
     const button = screen.getByRole("button");
     for (let i = 0; i < 6; i++) await userEvent.click(button);
     expect(button).toBeDisabled();
   });
 
   it("est désactivé pour un produit épuisé", () => {
-    render(<QuickAdd slug="poulet-roti" stock={0} name="Poulet rôti" />);
+    render(<QuickAdd slug="poulet-roti" name="Poulet rôti" />);
     expect(screen.getByRole("button", { name: "Poulet rôti épuisé" })).toBeDisabled();
   });
 });

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/add-to-cart";
 import { FavoriteButton } from "@/components/favorite-button";
+import { StockStatus } from "@/components/stock-status";
 import { ProductVisual } from "@/components/chip-bag";
 import { Badge, Price, ProductGrid } from "@/components/product-card";
 import { formatWeight, getCategory, getProduct, pricePerKg, products, SPICE_LABELS } from "@/lib/products";
@@ -91,16 +92,8 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-sm font-semibold">
-            {product.stock === 0 ? (
-              <span className="text-sale">● Victime de son succès — bientôt de retour</span>
-            ) : product.stock < 10 ? (
-              <span className="text-orange">● Plus que {product.stock} en stock, faites vite !</span>
-            ) : (
-              <span className="text-green">● En stock — expédié sous 24 h</span>
-            )}
-          </p>
-          <AddToCart slug={product.slug} stock={product.stock} />
+          <StockStatus slug={product.slug} />
+          <AddToCart slug={product.slug} />
         </div>
       </div>
 

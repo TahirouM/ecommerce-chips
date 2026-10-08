@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { availableStock } from "@/lib/backend";
 import { cart, useCart } from "@/lib/cart";
 import { formatPrice, formatWeight } from "@/lib/products";
 import { ProductVisual } from "./chip-bag";
@@ -40,7 +41,11 @@ export function CartView() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <QuantityInput value={quantity} max={product.stock} onChange={(q) => cart.setQuantity(slug, q)} />
+                <QuantityInput
+                  value={quantity}
+                  max={availableStock(slug)}
+                  onChange={(q) => cart.setQuantity(slug, q)}
+                />
                 <p className="w-20 text-right font-bold tabular-nums">{formatPrice(total)}</p>
                 <button
                   onClick={() => cart.remove(slug)}
