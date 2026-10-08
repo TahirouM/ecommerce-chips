@@ -5,7 +5,8 @@ import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/products";
 
 export function OrderSummary({ shipping, children }: { shipping?: number; children?: React.ReactNode }) {
   const { subtotal, freeShipping } = useCart();
-  const shippingCost = freeShipping ? 0 : shipping;
+  // Le mode de livraison choisi fait foi ; sans choix (page panier), la standard offerte vaut 0.
+  const shippingCost = shipping ?? (freeShipping ? 0 : undefined);
   const total = subtotal + (shippingCost ?? 0);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
 
@@ -20,7 +21,7 @@ export function OrderSummary({ shipping, children }: { shipping?: number; childr
         <div className="flex justify-between">
           <dt className="text-muted">Livraison</dt>
           <dd className="font-semibold tabular-nums">
-            {freeShipping
+            {shippingCost === 0
               ? "Offerte 🎉"
               : shippingCost === undefined
                 ? "Calculée à l'étape suivante"
