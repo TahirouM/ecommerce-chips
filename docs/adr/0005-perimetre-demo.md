@@ -1,6 +1,6 @@
 # 0005 — Périmètre démo : catalogue dans le code, commande côté client, pas de paiement
 
-- **Statut** : acceptée (provisoire, à remplacer avant toute mise en production)
+- **Statut** : remplacée en partie par [0007](0007-backend-simule.md) (comptes, commandes et stock passent par un backend simulé)
 - **Date** : 2026-10-08
 
 ## Contexte

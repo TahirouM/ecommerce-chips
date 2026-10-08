@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { categories, formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/products";
 import { Logo } from "./header";
+import { ResetDemoButton } from "./reset-demo-button";
 
 export function Footer() {
   return (
@@ -35,7 +36,7 @@ export function Footer() {
         </div>
       </div>
       <p className="border-t border-background/15 py-5 text-center text-xs text-background/50">
-        CRAAK! — Chips artisanales · À consommer avec plaisir (et avec modération pour l’habanero).
+        CRAAK! — Boutique de démonstration, aucun paiement réel · <ResetDemoButton />
       </p>
     </footer>
   );
