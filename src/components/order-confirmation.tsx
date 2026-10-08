@@ -107,15 +107,26 @@ export function OrderConfirmation() {
         </div>
       </div>
 
+      {!user && (
+        <p className="mt-8 rounded-xl border-2 border-dashed border-foreground/40 bg-primary/15 px-4 py-3 text-sm">
+          💡 Créez un compte avec <strong>{order.email}</strong> : cette commande y sera automatiquement rattachée.
+        </p>
+      )}
+
       <div className="mt-8 flex flex-wrap gap-4">
         {user ? (
-          <Link href="/compte" className="btn bg-primary">
-            Voir mon compte
+          <Link href={`/compte/commandes/detail?id=${order.id}`} className="btn bg-primary">
+            Suivre ma commande
           </Link>
         ) : (
-          <Link href="/inscription" className="btn bg-primary">
-            Créer un compte pour suivre ma commande
-          </Link>
+          <>
+            <Link href="/suivi-commande" className="btn bg-primary">
+              Suivre ma commande
+            </Link>
+            <Link href="/inscription" className="btn bg-surface">
+              Créer un compte
+            </Link>
+          </>
         )}
         <Link href="/produits" className="btn bg-surface">
           Reprendre des chips

@@ -5,7 +5,7 @@ import { ResetDemoButton } from "./reset-demo-button";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t-2 border-foreground bg-foreground text-background">
+    <footer className="mt-24 border-t-2 border-foreground bg-foreground text-background print:hidden">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 text-sm sm:grid-cols-3">
         <div>
           <Logo className="text-3xl" />
@@ -29,6 +29,11 @@ export function Footer() {
           <p className="font-display text-lg font-bold">On s&apos;occupe de vous</p>
           <ul className="mt-3 space-y-2 text-background/70">
             <li>Livraison offerte dès {formatPrice(FREE_SHIPPING_THRESHOLD)}</li>
+            <li>
+              <Link href="/suivi-commande" className="hover:text-primary">
+                Suivre une commande
+              </Link>
+            </li>
             <li>Expédition sous 24 h</li>
             <li>Sachets 100 % recyclables</li>
             <li>bonjour@craak.example</li>

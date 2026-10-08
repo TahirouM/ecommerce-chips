@@ -30,6 +30,9 @@ const commande = (overrides: Partial<CheckoutInput> = {}): CheckoutInput => ({
   ...overrides,
 });
 
+// Le compte démo a déjà des commandes : on ne regarde que celles du test.
+const commandesDeCamille = () => readDb().orders.filter((o) => o.email === "camille@example.com");
+
 beforeEach(() => resetDb());
 
 describe("placeOrder", () => {
@@ -83,7 +86,7 @@ describe("placeOrder", () => {
     await expect(
       placeOrder(commande({ card: { name: "C", number, expiry: "12/30", cvc: "123" } })),
     ).rejects.toMatchObject({ code: "payment_failed", message });
-    expect(readDb().orders).toHaveLength(0);
+    expect(commandesDeCamille()).toHaveLength(0);
     expect(availableStock("sel-de-mer")).toBe(80);
   });
 
@@ -120,7 +123,7 @@ describe("3-D Secure", () => {
   it("met la commande en attente sans débiter ni réserver", async () => {
     const result = await avec3DS();
     expect(result.status).toBe("requires_action");
-    expect(readDb().orders).toHaveLength(0);
+    expect(commandesDeCamille()).toHaveLength(0);
     expect(availableStock("sel-de-mer")).toBe(80);
   });
 
@@ -140,7 +143,7 @@ describe("3-D Secure", () => {
     if (result.status !== "requires_action") throw new Error("3DS attendu");
     await cancelThreeDSecure(result.checkoutId);
     await expect(confirmThreeDSecure(result.checkoutId, "123456")).rejects.toMatchObject({ code: "invalid_token" });
-    expect(readDb().orders).toHaveLength(0);
+    expect(commandesDeCamille()).toHaveLength(0);
   });
 });
 

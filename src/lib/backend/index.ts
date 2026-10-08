@@ -23,6 +23,7 @@ export {
   type CheckoutResult,
 } from "./checkout";
 export { ApiError, errorMessage } from "./errors";
+export { cancelOrder, listMyOrders } from "./orders";
 export { availableStock } from "./inventory";
 export { DEMO_ACCOUNT } from "./seed";
 export { resetDb as resetDemo } from "./store";

@@ -52,6 +52,8 @@ function openSession(userId: string) {
     const user = db.users.find((u) => u.id === userId)!;
     user.favorites = [...new Set([...user.favorites, ...db.guestFavorites])];
     db.guestFavorites = [];
+    // Les commandes passées en invité avec cette adresse e-mail rejoignent le compte.
+    for (const order of db.orders) if (!order.userId && order.email === user.email) order.userId = user.id;
   });
   setSessionToken(token);
 }
