@@ -2,6 +2,8 @@
 
 Ce guide décrit comment le projet est organisé et comment proposer une modification. Il s'applique à tout le monde, lead compris.
 
+Nouveau sur le projet ? Commencez par la [prise en main](docs/01-prise-en-main.md). La [documentation technique](docs/README.md) détaille l'architecture et les conventions.
+
 ## Installation
 
 Prérequis : Node.js 24 (voir `.nvmrc`).
@@ -94,3 +96,5 @@ Un commentaire de relecture se justifie (« parce que… ») et distingue le blo
 ## Décisions d'architecture
 
 Toute décision structurante (nouvelle dépendance majeure, changement de modèle de données, choix d'hébergement…) fait l'objet d'un ADR dans `docs/adr/`, relu dans la même PR que le code.
+
+Une PR qui change une règle métier, une fonction du backend, un script ou la CI met à jour la page concernée de `docs/` dans la même PR.

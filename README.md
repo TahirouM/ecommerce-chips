@@ -16,6 +16,10 @@ npm run dev      # http://localhost:3000
 
 Scripts, workflow Git et conventions : voir **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 
+## Documentation
+
+La **[documentation technique](docs/README.md)** couvre l'architecture, les règles métier, l'API du backend, les conventions front-end, la stratégie de tests, l'industrialisation, la sécurité, l'exploitation et la feuille de route. Elle propose un parcours de lecture selon votre profil (nouvel arrivant, relecteur, jury).
+
 ## Essayer la démo
 
 | Quoi                    | Valeur                                                                                                  |
@@ -59,13 +63,13 @@ flowchart TB
   end
 ```
 
-| Dossier           | Rôle                                                                                                     |
-| ----------------- | -------------------------------------------------------------------------------------------------------- |
-| `src/app/`        | Routes (App Router) : `/`, `/produits`, `/produits/[slug]`, `/categories/[slug]`, `/panier`, `/commande` |
-| `src/components/` | Composants d'interface ; serveur par défaut, `"use client"` pour les îlots interactifs                   |
-| `src/lib/`        | Données et logique métier, testées unitairement (`*.test.ts`)                                            |
-| `e2e/`            | Tests de bout en bout Playwright                                                                         |
-| `docs/adr/`       | Décisions d'architecture                                                                                 |
+| Dossier           | Rôle                                                                                                |
+| ----------------- | --------------------------------------------------------------------------------------------------- |
+| `src/app/`        | Routes (App Router) : boutique, panier, tunnel `/commande`, comptes, espace client `/compte`, suivi |
+| `src/components/` | Composants d'interface ; serveur par défaut, `"use client"` pour les îlots interactifs              |
+| `src/lib/`        | Données et logique métier, testées unitairement (`*.test.ts`)                                       |
+| `e2e/`            | Tests de bout en bout Playwright                                                                    |
+| `docs/`           | Documentation technique et décisions d'architecture (`docs/adr/`)                                   |
 
 ### Décisions d'architecture
 
@@ -93,8 +97,11 @@ flowchart TB
 
 Suivie dans les [issues](https://github.com/TahirouM/ecommerce-chips/issues) et les [jalons](https://github.com/TahirouM/ecommerce-chips/milestones) :
 
-- **M1 — Fondations qualité** : conventions, CI, tests, documentation d'architecture
-- **M2 — Mise en production** : paiement Stripe, commandes et stock côté serveur, déploiement, audit d'accessibilité, back-office
+- ✅ **M1 — Fondations qualité** : conventions, CI, tests, documentation d'architecture
+- ✅ **M3 — Tunnel de vente complet (simulé)** : comptes, espace client, paiement et 3-D Secure, codes promo, stock, suivi des commandes
+- 🔜 **M2 — Mise en production** : déploiement, commandes et stock côté serveur, paiement Stripe, audit d'accessibilité, back-office
+
+Priorités, plan de migration vers un vrai backend et dette technique : [docs/10-feuille-de-route.md](docs/10-feuille-de-route.md).
 
 ## Personnaliser
 
