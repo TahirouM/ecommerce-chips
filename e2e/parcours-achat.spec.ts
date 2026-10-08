@@ -1,16 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-
-// Intl sépare les euros par une espace insécable : on accepte tout type d'espace.
-const euros = (amount: string) => new RegExp(amount.replace(" ", "\\s"));
-
-/**
- * Les composants interactifs ne réagissent qu'une fois React hydraté : sans cette attente,
- * un clic ou une saisie trop rapide est perdu et le test devient instable.
- */
-async function ouvrir(page: Page, url: string) {
-  await page.goto(url);
-  await page.waitForLoadState("networkidle");
-}
+import { euros, ouvrir } from "./helpers";
 
 async function remplirCoordonnees(page: Page) {
   await page.getByPlaceholder("Adresse e-mail").fill("camille@example.com");
