@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { currentFavorites } from "./account";
 import { sessionUser, toPublicUser } from "./auth";
 import { readDb, subscribeDb, getSessionToken } from "./store";
 import type { PublicUser } from "./types";
@@ -24,4 +25,15 @@ function snapshot(): PublicUser | null {
  */
 export function useSession(): PublicUser | null | undefined {
   return useSyncExternalStore(subscribeDb, snapshot, () => undefined);
+}
+
+const NO_FAVORITES: string[] = [];
+
+/** Slugs des produits favoris (compte connecté ou visiteur). Vide pendant le rendu serveur. */
+export function useFavorites(): string[] {
+  return useSyncExternalStore(
+    subscribeDb,
+    () => currentFavorites(),
+    () => NO_FAVORITES,
+  );
 }

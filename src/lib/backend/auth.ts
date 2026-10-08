@@ -48,6 +48,10 @@ function openSession(userId: string) {
   const token = randomToken(24);
   updateDb((db) => {
     db.sessions.push({ token, userId, createdAt: new Date().toISOString() });
+    // Les favoris ajoutés avant connexion rejoignent ceux du compte.
+    const user = db.users.find((u) => u.id === userId)!;
+    user.favorites = [...new Set([...user.favorites, ...db.guestFavorites])];
+    db.guestFavorites = [];
   });
   setSessionToken(token);
 }

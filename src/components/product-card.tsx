@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { formatPrice, formatWeight, SPICE_LABELS, type Product } from "@/lib/products";
 import { ProductVisual } from "./chip-bag";
+import { FavoriteButton } from "./favorite-button";
 import { QuickAdd } from "./quick-add";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -46,7 +47,10 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="mt-auto flex items-center justify-between gap-2">
           <Price product={product} className="text-base" />
-          <QuickAdd slug={product.slug} stock={product.stock} name={product.name} />
+          <div className="flex gap-1.5">
+            <FavoriteButton slug={product.slug} name={product.name} />
+            <QuickAdd slug={product.slug} stock={product.stock} name={product.name} />
+          </div>
         </div>
       </div>
     </article>
