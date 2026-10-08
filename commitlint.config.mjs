@@ -1,5 +1,5 @@
 /** Conventional Commits — voir CONTRIBUTING.md. */
-export default {
+const config = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     // Les messages sont rédigés en français : on n'impose pas la casse anglaise.
@@ -7,3 +7,5 @@ export default {
     "body-max-line-length": [1, "always", 100],
   },
 };
+
+export default config;
