@@ -37,4 +37,6 @@ export type Db = {
   users: UserRecord[];
   sessions: Session[];
   resetTokens: ResetToken[];
+  /** Favoris d'un visiteur non connecté, fusionnés dans son compte à la connexion. */
+  guestFavorites: string[];
 };

@@ -3,6 +3,17 @@
  * remplacer la simulation par une vraie API revient à réécrire ces fonctions, pas l'interface.
  */
 export { login, logout, register, requestPasswordReset, resetPassword, passwordProblem } from "./auth";
+export {
+  addressProblem,
+  changePassword,
+  deleteAccount,
+  deleteAddress,
+  saveAddress,
+  setDefaultAddress,
+  toggleFavorite,
+  updateProfile,
+  type AddressInput,
+} from "./account";
 export { ApiError, errorMessage } from "./errors";
 export { DEMO_ACCOUNT } from "./seed";
 export { resetDb as resetDemo } from "./store";
