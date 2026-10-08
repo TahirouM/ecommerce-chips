@@ -1,63 +1,122 @@
 import { expect, test, type Page } from "@playwright/test";
 import { euros, ouvrir } from "./helpers";
 
-async function remplirCoordonnees(page: Page) {
-  await page.getByPlaceholder("Adresse e-mail").fill("camille@example.com");
-  await page.getByPlaceholder("Prénom").fill("Camille");
-  await page.getByPlaceholder("Nom", { exact: true }).fill("Martin");
-  await page.getByPlaceholder("Adresse", { exact: true }).fill("1 rue des Lilas");
-  await page.getByPlaceholder("Code postal").fill("75011");
-  await page.getByPlaceholder("Ville").fill("Paris");
+const total = (page: Page) => page.getByRole("complementary").getByText("Total TTC").locator("+ dd");
+
+async function ajouter(page: Page, slug: string, quantite = 1) {
+  await ouvrir(page, `/produits/${slug}`);
+  for (let i = 1; i < quantite; i++) await page.getByRole("button", { name: "Augmenter" }).click();
+  await page.getByRole("button", { name: /^Ajouter au panier/ }).click();
+  await expect(page.getByRole("status")).toContainText("dans le panier");
 }
 
-test("parcours d'achat complet : fiche produit → panier → commande → confirmation", async ({ page }) => {
-  await ouvrir(page, "/produits/sel-de-mer");
-  await expect(page.getByRole("heading", { level: 1, name: "Sel de mer" })).toBeVisible();
+async function continuerEnInvite(page: Page) {
+  await ouvrir(page, "/commande");
+  await page.getByLabel("Adresse e-mail").fill("camille@example.com");
+  await page.getByRole("button", { name: "Continuer en invité" }).click();
+}
 
-  await page.getByRole("button", { name: "Augmenter" }).click();
-  await page.getByRole("button", { name: /^Ajouter au panier/ }).click();
-  await expect(page.getByRole("status")).toContainText("dans le panier (2)");
+async function remplirLivraison(page: Page, mode: "standard" | "express" = "standard") {
+  await page.getByLabel("Prénom").fill("Camille");
+  await page.getByLabel("Nom", { exact: true }).fill("Durand");
+  await page.getByLabel("Adresse", { exact: true }).fill("3 place des Frites");
+  await page.getByLabel("Code postal").fill("13001");
+  await page.getByLabel("Ville").fill("Marseille");
+  if (mode === "express") await page.getByLabel(/Livraison express/).check();
+  await page.getByRole("button", { name: "Continuer vers le paiement →" }).click();
+}
 
-  await page.getByRole("link", { name: "Voir le panier →" }).click();
-  await expect(page).toHaveURL("/panier");
-  await expect(page.getByRole("link", { name: "Sel de mer", exact: true })).toBeVisible();
-  await expect(page.getByText("Total TTC").locator("+ dd")).toHaveText(euros("4,98 €"));
+async function payerAvec(page: Page, carte: RegExp) {
+  await page.getByRole("button", { name: carte }).click();
+  await page.getByRole("button", { name: /^🔒 Payer/ }).click();
+}
+
+test("achat invité complet avec code promo : panier → livraison → paiement → confirmation", async ({ page }) => {
+  await ajouter(page, "habanero-extreme", 2); // 2 × 3,49 € = 6,98 €
+  await ouvrir(page, "/panier");
+  await page.getByLabel("Code promo").fill("bienvenue10");
+  await page.getByRole("button", { name: "Appliquer" }).click();
+  await expect(page.getByText("BIENVENUE10", { exact: true })).toBeVisible();
+  await expect(total(page)).toHaveText(euros("6,28 €")); // −0,70 €
 
   await page.getByRole("link", { name: /Passer commande/ }).click();
-  await expect(page).toHaveURL("/commande");
-  await remplirCoordonnees(page);
-  // 4,98 € + 4,90 € de livraison standard
-  await page.getByRole("button", { name: euros("Valider la commande · 9,88 €") }).click();
+  await continuerEnInvite(page);
+  await remplirLivraison(page);
+  await expect(total(page)).toHaveText(euros("11,18 €")); // + 4,90 € de livraison
+  await payerAvec(page, /Paiement accepté/);
 
   await expect(page).toHaveURL("/commande/confirmation");
   await expect(page.getByRole("heading", { name: "Commande confirmée !" })).toBeVisible();
   await expect(page.getByText(/CRK-[0-9A-Z]+/)).toBeVisible();
-  await expect(page.getByText("Livraison à : 1 rue des Lilas, 75011 Paris")).toBeVisible();
+  await expect(page.getByText("Remise (BIENVENUE10)")).toBeVisible();
+  await expect(page.getByText(/VISA •••• 4242/)).toBeVisible();
 
-  // Le panier est vidé après la commande.
-  await ouvrir(page, "/panier");
-  await expect(page.getByText("Votre panier est vide")).toBeVisible();
+  // Le panier est vidé et le stock a baissé.
+  await expect(page.getByRole("link", { name: /Panier.*0 article/ })).toBeVisible();
+  await ouvrir(page, "/produits/habanero-extreme");
+  await expect(page.getByText("Plus que 4 en stock")).toBeVisible();
 });
 
-test("la livraison standard est offerte dès 35 €, l'express reste facturée", async ({ page }) => {
-  await ouvrir(page, "/produits/box-decouverte");
-  await page.getByRole("button", { name: "Augmenter" }).click();
-  await page.getByRole("button", { name: "Augmenter" }).click();
-  await page.getByRole("button", { name: /^Ajouter au panier/ }).click();
+test("une carte refusée affiche une erreur et laisse le panier intact", async ({ page }) => {
+  await ajouter(page, "sel-de-mer");
+  await continuerEnInvite(page);
+  await remplirLivraison(page);
+  await payerAvec(page, /Carte refusée/);
+  await expect(page.getByRole("alert").filter({ hasText: "Votre banque a refusé le paiement" })).toBeVisible();
+  await expect(page).toHaveURL("/commande");
 
-  await ouvrir(page, "/commande");
-  const recap = page.getByRole("complementary");
-  await expect(recap.getByText("Offerte 🎉")).toBeVisible();
-  await expect(recap.getByText("Total TTC").locator("+ dd")).toHaveText(euros("41,70 €"));
+  await payerAvec(page, /Fonds insuffisants/);
+  await expect(page.getByRole("alert").filter({ hasText: "fonds insuffisants" })).toBeVisible();
 
+  await payerAvec(page, /Paiement accepté/);
+  await expect(page.getByRole("heading", { name: "Commande confirmée !" })).toBeVisible();
+});
+
+test("3-D Secure : mauvais code, annulation, puis validation", async ({ page }) => {
+  await ajouter(page, "paprika-fume");
+  await continuerEnInvite(page);
+  await remplirLivraison(page);
+
+  await payerAvec(page, /Authentification 3-D Secure/);
+  const banque = page.getByRole("dialog", { name: "Confirmez votre paiement" });
+  await banque.getByLabel("Code de vérification").fill("000000");
+  await banque.getByRole("button", { name: "Valider" }).click();
+  await expect(banque.getByRole("alert")).toContainText("Code incorrect");
+
+  await banque.getByRole("button", { name: "Annuler le paiement" }).click();
+  await expect(banque).toBeHidden();
+  await expect(page.getByRole("alert").filter({ hasText: "Paiement annulé" })).toBeVisible();
+
+  await page.getByRole("button", { name: /^🔒 Payer/ }).click();
+  await banque.getByLabel("Code de vérification").fill("123456");
+  await banque.getByRole("button", { name: "Valider" }).click();
+  await expect(page.getByRole("heading", { name: "Commande confirmée !" })).toBeVisible();
+  await expect(page.getByText("authentifié 3-D Secure")).toBeVisible();
+});
+
+test("client connecté : adresse du carnet et livraison express facturée même au-delà de 35 €", async ({ page }) => {
+  await ajouter(page, "box-decouverte", 3); // 41,70 €
+  await ouvrir(page, "/connexion?retour=%2Fcommande");
+  await page.getByRole("button", { name: "Remplir avec le compte démo" }).click();
+  await page.getByRole("button", { name: "Se connecter" }).click();
+  await expect(page).toHaveURL("/commande");
+  await expect(page.getByText("Connecté en tant que")).toBeVisible();
+
+  await page.getByLabel(/Bureau/).check();
+  await expect(page.getByLabel(/Livraison standard/)).toBeChecked();
+  await expect(page.getByLabel(/Livraison standard/).locator("..")).toContainText("Offerte");
   await page.getByLabel(/Livraison express/).check();
-  await expect(recap.getByText("Total TTC").locator("+ dd")).toHaveText(euros("50,60 €"));
-  await expect(page.getByRole("button", { name: euros("Valider la commande · 50,60 €") })).toBeVisible();
+  await page.getByRole("button", { name: "Continuer vers le paiement →" }).click();
+  await expect(total(page)).toHaveText(euros("50,60 €"));
+  await payerAvec(page, /Paiement accepté/);
+
+  await expect(page.getByRole("heading", { name: "Commande confirmée !" })).toBeVisible();
+  await expect(page.getByText("Livraison à", { exact: true }).locator("..")).toContainText("69002 Lyon");
+  await expect(page.getByText("Total payé").locator("+ span")).toHaveText(euros("50,60 €"));
 });
 
 test("le panier survit à un rechargement de la page", async ({ page }) => {
-  await ouvrir(page, "/produits/paprika-fume");
-  await page.getByRole("button", { name: /^Ajouter au panier/ }).click();
+  await ajouter(page, "paprika-fume");
   await page.reload();
   await ouvrir(page, "/panier");
   await expect(page.getByRole("link", { name: "Paprika fumé", exact: true })).toBeVisible();

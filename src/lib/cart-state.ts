@@ -1,4 +1,5 @@
 import { FREE_SHIPPING_THRESHOLD, getProduct, SHIPPING_OPTIONS, type Product, type ShippingId } from "./products";
+import { promoDiscount, type Promo } from "./promo";
 
 /**
  * Logique métier du panier, sans React ni navigateur : fonctions pures, testées
@@ -8,23 +9,31 @@ import { FREE_SHIPPING_THRESHOLD, getProduct, SHIPPING_OPTIONS, type Product, ty
 export type CartItem = { slug: string; quantity: number };
 export type CartLine = CartItem & { product: Product; total: number };
 
-/** Ramène une quantité dans l'intervalle [0, stock du produit]. */
-export function clampQuantity(slug: string, quantity: number) {
-  const stock = getProduct(slug)?.stock ?? 0;
-  return Math.max(0, Math.min(quantity, stock));
+/** Stock disponible d'un produit. Par défaut celui du catalogue ; le store injecte le stock réel. */
+export type StockOf = (slug: string) => number;
+export const catalogStock: StockOf = (slug) => getProduct(slug)?.stock ?? 0;
+
+/** Ramène une quantité dans l'intervalle [0, stock disponible]. */
+export function clampQuantity(slug: string, quantity: number, stockOf: StockOf = catalogStock) {
+  return Math.max(0, Math.min(quantity, stockOf(slug)));
 }
 
-export function addItem(items: CartItem[], slug: string, quantity = 1): CartItem[] {
+export function addItem(items: CartItem[], slug: string, quantity = 1, stockOf: StockOf = catalogStock): CartItem[] {
   const existing = items.find((i) => i.slug === slug);
-  const qty = clampQuantity(slug, (existing?.quantity ?? 0) + quantity);
+  const qty = clampQuantity(slug, (existing?.quantity ?? 0) + quantity, stockOf);
   if (qty === 0) return items;
   return existing
     ? items.map((i) => (i.slug === slug ? { ...i, quantity: qty } : i))
     : [...items, { slug, quantity: qty }];
 }
 
-export function setItemQuantity(items: CartItem[], slug: string, quantity: number): CartItem[] {
-  const qty = clampQuantity(slug, quantity);
+export function setItemQuantity(
+  items: CartItem[],
+  slug: string,
+  quantity: number,
+  stockOf: StockOf = catalogStock,
+): CartItem[] {
+  const qty = clampQuantity(slug, quantity, stockOf);
   return qty === 0
     ? items.filter((i) => i.slug !== slug)
     : items.map((i) => (i.slug === slug ? { ...i, quantity: qty } : i));
@@ -58,4 +67,16 @@ export function summarize(items: CartItem[]) {
 export function shippingCost(subtotal: number, shippingId: ShippingId) {
   const option = SHIPPING_OPTIONS.find((o) => o.id === shippingId)!;
   return shippingId === "standard" && subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : option.price;
+}
+
+export type Totals = { subtotal: number; discount: number; shipping: number; total: number };
+
+/**
+ * Totaux d'une commande, en centimes. Le seuil de livraison offerte s'apprécie après remise.
+ * Utilisé pour l'aperçu dans l'interface ET par le backend, dont le calcul fait foi.
+ */
+export function computeTotals(subtotal: number, shippingId: ShippingId, promo: Promo | null = null): Totals {
+  const discount = promoDiscount(promo, subtotal);
+  const shipping = promo?.freeShipping ? 0 : shippingCost(subtotal - discount, shippingId);
+  return { subtotal, discount, shipping, total: subtotal - discount + shipping };
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { availableStock } from "./backend/inventory";
 import { addItem, type CartItem, parseCart, removeItem, setItemQuantity, summarize } from "./cart-state";
 
 export type { CartItem, CartLine } from "./cart-state";
@@ -41,10 +42,10 @@ function subscribe(listener: () => void) {
 
 export const cart = {
   add(slug: string, quantity = 1) {
-    write(addItem(read(), slug, quantity));
+    write(addItem(read(), slug, quantity, (s) => availableStock(s)));
   },
   setQuantity(slug: string, quantity: number) {
-    write(setItemQuantity(read(), slug, quantity));
+    write(setItemQuantity(read(), slug, quantity, (s) => availableStock(s)));
   },
   remove(slug: string) {
     write(removeItem(read(), slug));
@@ -56,4 +57,36 @@ export const cart = {
 
 export function useCart() {
   return summarize(useSyncExternalStore(subscribe, read, () => EMPTY));
+}
+
+/* Code promo saisi dans le panier : simple préférence du client, revalidée par le backend. */
+
+const PROMO_KEY = "craak-promo";
+const promoListeners = new Set<() => void>();
+
+function readPromo() {
+  try {
+    return localStorage.getItem(PROMO_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setPromoCode(code: string | null) {
+  try {
+    if (code) localStorage.setItem(PROMO_KEY, code);
+    else localStorage.removeItem(PROMO_KEY);
+  } catch {}
+  promoListeners.forEach((l) => l());
+}
+
+export function usePromoCode() {
+  return useSyncExternalStore(
+    (l) => {
+      promoListeners.add(l);
+      return () => promoListeners.delete(l);
+    },
+    readPromo,
+    () => null,
+  );
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { getProduct } from "../products";
 import { currentFavorites } from "./account";
+import { availableStock } from "./inventory";
 import { sessionUser, toPublicUser } from "./auth";
 import { readDb, subscribeDb, getSessionToken } from "./store";
 import type { PublicUser } from "./types";
@@ -35,5 +37,14 @@ export function useFavorites(): string[] {
     subscribeDb,
     () => currentFavorites(),
     () => NO_FAVORITES,
+  );
+}
+
+/** Stock disponible d'un produit ; pendant le rendu serveur, celui du catalogue. */
+export function useAvailableStock(slug: string): number {
+  return useSyncExternalStore(
+    subscribeDb,
+    () => availableStock(slug),
+    () => getProduct(slug)?.stock ?? 0,
   );
 }
