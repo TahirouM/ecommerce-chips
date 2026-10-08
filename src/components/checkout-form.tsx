@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { cart, useCart } from "@/lib/cart";
+import { shippingCost } from "@/lib/cart-state";
 import { newOrderId, saveOrder, toOrderLines } from "@/lib/order";
 import { formatPrice, SHIPPING_OPTIONS, type ShippingId } from "@/lib/products";
 import { OrderSummary } from "./order-summary";
@@ -13,12 +14,11 @@ const input =
 
 export function CheckoutForm() {
   const router = useRouter();
-  const { lines, subtotal, freeShipping } = useCart();
+  const { lines, subtotal } = useCart();
   const [shippingId, setShippingId] = useState<ShippingId>("standard");
   const [submitting, setSubmitting] = useState(false);
 
-  const shippingPrice = SHIPPING_OPTIONS.find((o) => o.id === shippingId)!.price;
-  const shipping = freeShipping && shippingId === "standard" ? 0 : shippingPrice;
+  const shipping = shippingCost(subtotal, shippingId);
 
   if (lines.length === 0 && !submitting) {
     return (
@@ -91,7 +91,7 @@ export function CheckoutForm() {
         <fieldset className="space-y-3">
           <legend className="mb-4 font-display text-xl font-extrabold">Mode de livraison</legend>
           {SHIPPING_OPTIONS.map((o) => {
-            const price = freeShipping && o.id === "standard" ? 0 : o.price;
+            const price = shippingCost(subtotal, o.id);
             return (
               <label
                 key={o.id}
