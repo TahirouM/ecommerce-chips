@@ -52,7 +52,7 @@ npm run dev      # http://localhost:3000
    Types autorisés : `feat`, `fix`, `chore`, `test`, `ci`, `docs`, `refactor`, `style`, `perf`, `build`, `revert`.
 
 4. **Une Pull Request** qui remplit le modèle (quoi, pourquoi, comment tester, captures) et référence l'issue (`Closes #12`).
-5. **La CI doit être au vert** avant la fusion. Les PR sont fusionnées en _squash_ : un commit propre par PR sur `main`.
+5. **La CI doit être au vert** avant la fusion. Les PR sont fusionnées par _merge commit_ : les commits atomiques de la branche sont conservés, et leurs hashes restent valides (indispensable pour `.git-blame-ignore-revs`). Une branche à l'historique brouillon est nettoyée avant la relecture.
 6. La branche est supprimée après fusion.
 
 ## Ce qui est vérifié automatiquement
