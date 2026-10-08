@@ -9,7 +9,7 @@ import type { Db } from "./types";
 
 const DB_KEY = "craak-db";
 const SESSION_KEY = "craak-session";
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 const listeners = new Set<() => void>();
 let cache: Db | null = null;

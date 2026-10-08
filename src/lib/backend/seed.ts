@@ -46,5 +46,8 @@ export function seedDb(version: number): Db {
     sessions: [],
     resetTokens: [],
     guestFavorites: [],
+    orders: [],
+    pendingCheckouts: [],
+    sold: {},
   };
 }
