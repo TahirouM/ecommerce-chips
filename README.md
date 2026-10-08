@@ -60,6 +60,7 @@ flowchart TB
 | [0004](docs/adr/0004-visuels-svg.md)                | Visuels produits dessinés en SVG                             |
 | [0005](docs/adr/0005-perimetre-demo.md)             | Périmètre démo : catalogue dans le code, pas de paiement     |
 | [0006](docs/adr/0006-strategie-qualite.md)          | Stratégie qualité : conventions, tests, CI                   |
+| [0007](docs/adr/0007-backend-simule.md)             | Backend simulé derrière une couche de services               |
 
 ## Qualité
 
