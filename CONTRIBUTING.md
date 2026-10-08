@@ -14,14 +14,16 @@ npm run dev      # http://localhost:3000
 
 ## Scripts
 
-| Commande               | Rôle                                     |
-| ---------------------- | ---------------------------------------- |
-| `npm run dev`          | Serveur de développement                 |
-| `npm run build`        | Build de production                      |
-| `npm run lint`         | ESLint                                   |
-| `npm run typecheck`    | Vérification TypeScript                  |
-| `npm run format`       | Formate tout le code avec Prettier       |
-| `npm run format:check` | Vérifie le formatage (utilisé par la CI) |
+| Commande               | Rôle                                      |
+| ---------------------- | ----------------------------------------- |
+| `npm run dev`          | Serveur de développement                  |
+| `npm run build`        | Build de production                       |
+| `npm run lint`         | ESLint                                    |
+| `npm run typecheck`    | Vérification TypeScript                   |
+| `npm run format`       | Formate tout le code avec Prettier        |
+| `npm run format:check` | Vérifie le formatage (utilisé par la CI)  |
+| `npm test`             | Tests unitaires et de composants (Vitest) |
+| `npm run test:watch`   | Tests en mode surveillance                |
 
 ## Workflow
 
@@ -59,6 +61,12 @@ npm run dev      # http://localhost:3000
 
 - **Avant chaque commit** (Husky + lint-staged) : ESLint et Prettier sur les fichiers modifiés, format du message de commit.
 - **Sur chaque PR** (GitHub Actions) : voir `.github/workflows/`.
+
+## Tests
+
+- La logique métier (`src/lib/`) est écrite en **fonctions pures** et testée unitairement à côté du code (`*.test.ts`).
+- Les composants interactifs sont testés avec Testing Library **comme un utilisateur** : par rôle et libellé accessibles, jamais par classe CSS.
+- **Tout bug corrigé arrive avec un test qui le reproduit** (écrit avant la correction, il doit échouer).
 
 ## Conventions de code
 
