@@ -53,6 +53,9 @@ export const cart = {
   clear() {
     write([]);
   },
+  quantityOf(slug: string) {
+    return read().find((i) => i.slug === slug)?.quantity ?? 0;
+  },
 };
 
 export function useCart() {
