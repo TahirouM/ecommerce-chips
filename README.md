@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/TahirouM/ecommerce-chips/actions/workflows/ci.yml/badge.svg)](https://github.com/TahirouM/ecommerce-chips/actions/workflows/ci.yml)
 
-Boutique e-commerce de chips au design « pop » : catalogue, fiches produit, panier et tunnel de commande.
+Boutique e-commerce de chips au design « pop », avec un **tunnel de vente complet simulé** : comptes clients, paiement par carte (3-D Secure compris), codes promo, suivi et annulation des commandes. Aucun paiement réel, aucun service tiers : tout tourne dans le navigateur derrière une couche « backend » interchangeable ([ADR 0007](docs/adr/0007-backend-simule.md)).
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Vitest · Playwright
 
@@ -16,13 +16,28 @@ npm run dev      # http://localhost:3000
 
 Scripts, workflow Git et conventions : voir **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 
+## Essayer la démo
+
+| Quoi                    | Valeur                                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| Compte de démonstration | `demo@craak.fr` / `chips2026` (adresses, favoris et 3 commandes déjà là)                                |
+| Carte acceptée          | `4242 4242 4242 4242`, date future, CVC `123`                                                           |
+| Carte avec 3-D Secure   | `4000 0027 6000 3184` (code de la banque : `123456`)                                                    |
+| Cartes refusées         | `4000 0000 0000 0002` (refus) · `4000 0000 0000 9995` (fonds insuffisants)                              |
+| Codes promo             | `BIENVENUE10` (−10 %) · `CRAAK5` (−5 € dès 20 €) · `LIVRAISON` (livraison offerte) · `ETE2026` (expiré) |
+| Remise à zéro           | lien « Réinitialiser la démo » en pied de page                                                          |
+
+Le statut d'une commande avance tout seul, en accéléré : préparation à 2 min, expédition à 5 min, livraison à 10 min.
+
 ## Fonctionnalités
 
-- Accueil : hero animé, bandeau défilant des saveurs, univers, produits mis en avant
-- Catalogue : recherche, filtre par univers, tri (prix, note, niveau de piquant)
-- Fiches produit pré-rendues : prix au kilo, niveau de piquant, état du stock
-- Panier persistant, synchronisé entre onglets, plafonné au stock ; ajout rapide depuis les cartes
-- Tunnel de commande : coordonnées, livraison (standard offerte dès 35 €), confirmation — **paiement en mode démo**
+**Boutique** : accueil animé, catalogue (recherche, filtres, tri par prix, note ou piquant), fiches pré-rendues avec **stock réel**, favoris (♡), panier persistant et synchronisé entre onglets.
+
+**Comptes** : inscription, connexion, mot de passe oublié (e-mail simulé, lien à usage unique), profil, changement de mot de passe, suppression du compte, carnet d'adresses.
+
+**Tunnel de commande** : identification (compte ou invité) → livraison (carnet ou saisie) → paiement par carte (validation, cartes de test, 3-D Secure) → confirmation. Code promo, livraison offerte dès 35 € (après remise), stock décrémenté.
+
+**Après l'achat** : historique et détail des commandes, frise de suivi et n° de colis, annulation avant expédition (remboursement et remise en stock), facture imprimable, « commander à nouveau », suivi sans compte (n° + e-mail). Les commandes passées en invité rejoignent le compte créé avec le même e-mail.
 
 ## Architecture
 
@@ -34,11 +49,13 @@ flowchart TB
 
   subgraph Navigateur
     SSG --> RSC["Composants serveur<br/>(HTML statique, sachets SVG)"]
-    RSC --> Islands["Îlots client<br/>AddToCart · QuickAdd · Catalog · CheckoutForm"]
-    Islands -->|useCart / cart.add…| Store["src/lib/cart.ts<br/>store + useSyncExternalStore"]
-    Store --> Logic["src/lib/cart-state.ts<br/>logique métier pure"]
+    RSC --> Islands["Îlots client<br/>panier · tunnel · espace client · favoris"]
+    Islands -->|useCart / cart.add…| Store["src/lib/cart.ts<br/>store du panier"]
+    Islands -->|placeOrder, login…| API["src/lib/backend/<br/>API asynchrone simulée"]
+    Store --> Logic["Logique pure partagée<br/>cart-state · promo · card · order-status"]
+    API --> Logic
     Store <--> LS[("localStorage<br/>panier")]
-    Islands --> Order["src/lib/order.ts"] <--> SS[("sessionStorage<br/>dernière commande")]
+    API <--> DB[("localStorage<br/>base JSON versionnée")]
   end
 ```
 
