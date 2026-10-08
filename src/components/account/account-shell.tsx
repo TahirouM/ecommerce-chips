@@ -18,6 +18,7 @@ export function useUser() {
 
 const LINKS = [
   { href: "/compte", label: "Tableau de bord", emoji: "🏠" },
+  { href: "/compte/commandes", label: "Mes commandes", emoji: "📦" },
   { href: "/compte/adresses", label: "Mes adresses", emoji: "📍" },
   { href: "/favoris", label: "Mes favoris", emoji: "💛" },
   { href: "/compte/profil", label: "Mon profil", emoji: "👤" },
@@ -29,14 +30,18 @@ export function AccountShell({ children }: { children: ReactNode }) {
     <RequireAuth>
       {(user) => (
         <UserContext.Provider value={user}>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr]">
-            <nav aria-label="Espace client" className="h-fit min-w-0">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[240px_1fr] print:block">
+            <nav aria-label="Espace client" className="h-fit min-w-0 print:hidden">
               <ul className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
                 {LINKS.map((l) => (
                   <li key={l.href} className="shrink-0">
                     <Link
                       href={l.href}
-                      aria-current={pathname === l.href ? "page" : undefined}
+                      aria-current={
+                        pathname === l.href || (l.href !== "/compte" && pathname.startsWith(l.href))
+                          ? "page"
+                          : undefined
+                      }
                       className="flex items-center gap-2 rounded-full border-2 border-transparent px-4 py-2 text-sm font-semibold whitespace-nowrap hover:border-foreground aria-[current=page]:border-foreground aria-[current=page]:bg-primary aria-[current=page]:shadow-pop-sm"
                     >
                       <span aria-hidden>{l.emoji}</span>

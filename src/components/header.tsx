@@ -21,7 +21,7 @@ const NAV = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-20">
+    <header className="sticky top-0 z-20 print:hidden">
       <p className="bg-foreground px-4 py-2 text-center text-xs font-semibold text-background sm:text-sm">
         🧪 Boutique de démonstration : aucun paiement réel · 🚚 Livraison offerte dès{" "}
         {formatPrice(FREE_SHIPPING_THRESHOLD)}

@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useFavorites } from "@/lib/backend/hooks";
+import { orderStatus, STATUS_LABELS } from "@/lib/order-status";
+import { formatPrice } from "@/lib/products";
+import { useMyOrders } from "../orders/my-orders";
 import { LogoutButton } from "./logout-button";
 import { PageTitle } from "./page-title";
 import { useUser } from "./account-shell";
@@ -9,9 +12,22 @@ import { useUser } from "./account-shell";
 export function AccountHome() {
   const user = useUser();
   const favorites = useFavorites();
+  const orders = useMyOrders();
+  const last = orders?.orders?.[0];
   const defaultAddress = user.addresses.find((a) => a.isDefault);
 
   const tiles = [
+    {
+      href: last ? `/compte/commandes/detail?id=${last.id}` : "/compte/commandes",
+      emoji: "📦",
+      title: "Dernière commande",
+      text: !orders
+        ? "Chargement…"
+        : last
+          ? `${last.id} · ${STATUS_LABELS[orderStatus(last)]} · ${formatPrice(last.total)}`
+          : "Aucune commande pour l'instant.",
+      color: "bg-green/15",
+    },
     {
       href: "/compte/adresses",
       emoji: "📍",
