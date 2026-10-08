@@ -14,16 +14,17 @@ npm run dev      # http://localhost:3000
 
 ## Scripts
 
-| Commande               | Rôle                                      |
-| ---------------------- | ----------------------------------------- |
-| `npm run dev`          | Serveur de développement                  |
-| `npm run build`        | Build de production                       |
-| `npm run lint`         | ESLint                                    |
-| `npm run typecheck`    | Vérification TypeScript                   |
-| `npm run format`       | Formate tout le code avec Prettier        |
-| `npm run format:check` | Vérifie le formatage (utilisé par la CI)  |
-| `npm test`             | Tests unitaires et de composants (Vitest) |
-| `npm run test:watch`   | Tests en mode surveillance                |
+| Commande               | Rôle                                         |
+| ---------------------- | -------------------------------------------- |
+| `npm run dev`          | Serveur de développement                     |
+| `npm run build`        | Build de production                          |
+| `npm run lint`         | ESLint                                       |
+| `npm run typecheck`    | Vérification TypeScript                      |
+| `npm run format`       | Formate tout le code avec Prettier           |
+| `npm run format:check` | Vérifie le formatage (utilisé par la CI)     |
+| `npm test`             | Tests unitaires et de composants (Vitest)    |
+| `npm run test:watch`   | Tests en mode surveillance                   |
+| `npm run test:e2e`     | Tests E2E Playwright (après `npm run build`) |
 
 ## Workflow
 
@@ -66,6 +67,7 @@ npm run dev      # http://localhost:3000
 
 - La logique métier (`src/lib/`) est écrite en **fonctions pures** et testée unitairement à côté du code (`*.test.ts`).
 - Les composants interactifs sont testés avec Testing Library **comme un utilisateur** : par rôle et libellé accessibles, jamais par classe CSS.
+- Le **parcours d'achat** est couvert de bout en bout par Playwright (`e2e/`), sur desktop et mobile, contre le build de production. Première installation : `npx playwright install chromium`.
 - **Tout bug corrigé arrive avec un test qui le reproduit** (écrit avant la correction, il doit échouer).
 
 ## Conventions de code
