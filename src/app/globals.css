@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff8ec;
+  --surface: #ffffff;
+  --foreground: #1a1a2e;
+  --muted: #5b5b73;
+  --border: #1a1a2e;
+  --soft: #f3e7d3;
+  --primary: #ffd23f;
+  --accent: #ff5c8a;
+  --accent-foreground: #ffffff;
+  --blue: #3d7bff;
+  --green: #2ec4a0;
+  --orange: #ff8a3d;
+  --sale: #e8343d;
+  color-scheme: light;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-soft: var(--soft);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+  --color-orange: var(--orange);
+  --color-sale: var(--sale);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-face);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility shadow-pop {
+  box-shadow: 4px 4px 0 var(--foreground);
+}
+
+@utility shadow-pop-sm {
+  box-shadow: 2px 2px 0 var(--foreground);
+}
+
+@utility shadow-pop-lg {
+  box-shadow: 8px 8px 0 var(--foreground);
+}
+
+/* Bouton « pop » : contour épais, ombre décalée qui s'enfonce au clic. */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid var(--foreground);
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 4px 4px 0 var(--foreground);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  cursor: pointer;
+  &:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--foreground);
+  }
+  &:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--foreground);
+  }
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@utility animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float {
+    animation: none;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--primary);
 }
