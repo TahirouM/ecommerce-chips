@@ -59,7 +59,7 @@ export function CartView() {
           </li>
         ))}
       </ul>
-      <OrderSummary>
+      <OrderSummary withPromo>
         <Link href="/commande" className="mt-6 btn w-full bg-primary">
           Passer commande →
         </Link>
