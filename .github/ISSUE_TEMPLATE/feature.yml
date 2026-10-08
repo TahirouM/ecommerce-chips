@@ -1,0 +1,27 @@
+name: ✨ Fonctionnalité
+description: Proposer une nouvelle fonctionnalité ou une amélioration
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte
+      description: Quel problème, pour quel utilisateur ?
+    validations:
+      required: true
+  - type: textarea
+    id: todo
+    attributes:
+      label: À faire
+      placeholder: "- [ ] ..."
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critères d'acceptation
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Taille estimée
+      options: ["S (< 2 h)", "M (demi-journée)", "L (une journée ou plus)"]
