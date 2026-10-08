@@ -10,6 +10,11 @@ updates:
       prefix: chore
       include: scope
     labels: ["type: qualité"]
+    ignore:
+      # Les types doivent décrire la version de Node réellement utilisée (.nvmrc : 24).
+      # On ne monte de majeure qu'en changeant de version de Node, volontairement.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       # Next et React évoluent ensemble : une seule PR pour les deux (groupe évalué en premier).
       next-react:
