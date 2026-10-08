@@ -21,7 +21,7 @@ export function OrderConfirmation() {
     return (
       <div className="text-center">
         <p className="text-muted">Aucune commande récente.</p>
-        <Link href="/produits" className="btn mt-8 bg-primary">
+        <Link href="/produits" className="mt-8 btn bg-primary">
           Retour à la boutique
         </Link>
       </div>
@@ -36,8 +36,8 @@ export function OrderConfirmation() {
       </p>
       <h1 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">Commande confirmée !</h1>
       <p className="mt-4 text-muted">
-        Votre commande <span className="font-medium text-foreground">{order.id}</span> est enregistrée.
-        Vos chips arrivent bientôt. Un récapitulatif sera envoyé à {order.email}.
+        Votre commande <span className="font-medium text-foreground">{order.id}</span> est enregistrée. Vos chips
+        arrivent bientôt. Un récapitulatif sera envoyé à {order.email}.
       </p>
       <div className="mt-8 rounded-2xl border-2 border-foreground bg-surface p-6 text-sm shadow-pop-lg">
         <ul className="space-y-2">
@@ -60,10 +60,7 @@ export function OrderConfirmation() {
         </p>
         <p className="mt-6 text-muted">Livraison à : {order.address}</p>
       </div>
-      <Link
-        href="/produits"
-        className="btn mt-8 bg-primary"
-      >
+      <Link href="/produits" className="mt-8 btn bg-primary">
         Reprendre des chips
       </Link>
     </div>

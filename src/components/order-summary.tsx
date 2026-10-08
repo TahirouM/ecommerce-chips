@@ -3,13 +3,7 @@
 import { useCart } from "@/lib/cart";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/products";
 
-export function OrderSummary({
-  shipping,
-  children,
-}: {
-  shipping?: number;
-  children?: React.ReactNode;
-}) {
+export function OrderSummary({ shipping, children }: { shipping?: number; children?: React.ReactNode }) {
   const { subtotal, freeShipping } = useCart();
   const shippingCost = freeShipping ? 0 : shipping;
   const total = subtotal + (shippingCost ?? 0);
@@ -26,7 +20,11 @@ export function OrderSummary({
         <div className="flex justify-between">
           <dt className="text-muted">Livraison</dt>
           <dd className="font-semibold tabular-nums">
-            {freeShipping ? "Offerte 🎉" : shippingCost === undefined ? "Calculée à l'étape suivante" : formatPrice(shippingCost)}
+            {freeShipping
+              ? "Offerte 🎉"
+              : shippingCost === undefined
+                ? "Calculée à l'étape suivante"
+                : formatPrice(shippingCost)}
           </dd>
         </div>
         <div className="flex justify-between border-t-2 border-dashed border-foreground/30 pt-3 text-lg font-extrabold">

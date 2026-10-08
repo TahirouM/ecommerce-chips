@@ -17,13 +17,14 @@ const display = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   title: { default: "CRAAK! — Chips artisanales", template: "%s · CRAAK!" },
-  description: "Des chips croustillantes cuites en petits lots, en France. Classiques, relevées, gourmandes ou légères.",
+  description:
+    "Des chips croustillantes cuites en petits lots, en France. Classiques, relevées, gourmandes ou légères.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fr" className={`${body.variable} ${display.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="flex min-h-full flex-col font-sans">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

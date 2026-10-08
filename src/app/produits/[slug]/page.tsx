@@ -27,7 +27,9 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <nav className="text-sm font-semibold text-muted">
-        <Link href="/produits" className="hover:text-foreground">Boutique</Link>
+        <Link href="/produits" className="hover:text-foreground">
+          Boutique
+        </Link>
         {" / "}
         {category && (
           <Link href={`/categories/${category.slug}`} className="hover:text-foreground">
@@ -43,7 +45,7 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
             className="aspect-square rounded-3xl border-2 border-foreground shadow-pop-lg"
             bagClassName="-rotate-6"
           />
-          <div className="absolute left-4 top-4 flex flex-col items-start gap-1.5">
+          <div className="absolute top-4 left-4 flex flex-col items-start gap-1.5">
             {product.compareAtPrice && <Badge className="bg-sale text-white">Promo</Badge>}
             {product.isNew && <Badge className="bg-primary">Nouveau</Badge>}
           </div>

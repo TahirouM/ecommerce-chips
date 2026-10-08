@@ -10,7 +10,7 @@ export function CartLink() {
       <span aria-hidden>🛒</span>
       Panier
       <span
-        className="min-w-6 rounded-full bg-accent px-1.5 text-center text-xs font-bold leading-6 text-accent-foreground tabular-nums"
+        className="min-w-6 rounded-full bg-accent px-1.5 text-center text-xs leading-6 font-bold text-accent-foreground tabular-nums"
         aria-label={`${count} article${count > 1 ? "s" : ""}`}
       >
         {count}

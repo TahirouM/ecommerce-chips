@@ -26,11 +26,41 @@ export type Product = {
 };
 
 export const categories: Category[] = [
-  { slug: "classiques", name: "Classiques", description: "Les indémodables, salées juste ce qu'il faut.", emoji: "🥔", color: "#FFD23F" },
-  { slug: "relevees", name: "Relevées", description: "Paprika, piment, barbecue : ça pique (un peu, beaucoup).", emoji: "🌶️", color: "#FF8A3D" },
-  { slug: "gourmandes", name: "Gourmandes", description: "Des saveurs généreuses pour se faire plaisir.", emoji: "🧀", color: "#8E7BFF" },
-  { slug: "legeres", name: "Légères", description: "Cuites au four, légumes et légumineuses.", emoji: "🥕", color: "#2EC4A0" },
-  { slug: "packs", name: "Packs", description: "Box et assortiments à partager (ou pas).", emoji: "🎁", color: "#FF5C8A" },
+  {
+    slug: "classiques",
+    name: "Classiques",
+    description: "Les indémodables, salées juste ce qu'il faut.",
+    emoji: "🥔",
+    color: "#FFD23F",
+  },
+  {
+    slug: "relevees",
+    name: "Relevées",
+    description: "Paprika, piment, barbecue : ça pique (un peu, beaucoup).",
+    emoji: "🌶️",
+    color: "#FF8A3D",
+  },
+  {
+    slug: "gourmandes",
+    name: "Gourmandes",
+    description: "Des saveurs généreuses pour se faire plaisir.",
+    emoji: "🧀",
+    color: "#8E7BFF",
+  },
+  {
+    slug: "legeres",
+    name: "Légères",
+    description: "Cuites au four, légumes et légumineuses.",
+    emoji: "🥕",
+    color: "#2EC4A0",
+  },
+  {
+    slug: "packs",
+    name: "Packs",
+    description: "Box et assortiments à partager (ou pas).",
+    emoji: "🎁",
+    color: "#FF5C8A",
+  },
 ];
 
 export const products: Product[] = [
@@ -44,7 +74,8 @@ export const products: Product[] = [
     spice: 0,
     color: "#FFC21A",
     emoji: "🧂",
-    description: "La chips telle qu'on l'aime : fine, dorée, saupoudrée de fleur de sel de Guérande. Simple et parfaite.",
+    description:
+      "La chips telle qu'on l'aime : fine, dorée, saupoudrée de fleur de sel de Guérande. Simple et parfaite.",
     details: ["Pommes de terre françaises", "Cuites au chaudron en petits lots", "Fleur de sel de Guérande"],
     rating: 4.8,
     stock: 80,
@@ -75,7 +106,8 @@ export const products: Product[] = [
     spice: 0,
     color: "#2EC4A0",
     emoji: "🫙",
-    description: "L'acidulé du vinaigre de cidre et le croquant du sel : un classique britannique qui réveille les papilles.",
+    description:
+      "L'acidulé du vinaigre de cidre et le croquant du sel : un classique britannique qui réveille les papilles.",
     details: ["Vinaigre de cidre de Normandie", "Sans exhausteur de goût", "Vegan"],
     rating: 4.4,
     stock: 40,
@@ -106,7 +138,8 @@ export const products: Product[] = [
     spice: 2,
     color: "#5BCB3C",
     emoji: "🌶️",
-    description: "Le piquant franc du jalapeño, adouci par un zeste de citron vert. Fraîcheur et feu dans le même sachet.",
+    description:
+      "Le piquant franc du jalapeño, adouci par un zeste de citron vert. Fraîcheur et feu dans le même sachet.",
     details: ["Piment jalapeño", "Zeste de citron vert", "Vegan"],
     rating: 4.5,
     stock: 32,
@@ -137,7 +170,8 @@ export const products: Product[] = [
     spice: 3,
     color: "#E8343D",
     emoji: "💀",
-    description: "Réservée aux plus courageux. Le habanero frappe fort, et longtemps. Un verre de lait à portée de main est conseillé.",
+    description:
+      "Réservée aux plus courageux. Le habanero frappe fort, et longtemps. Un verre de lait à portée de main est conseillé.",
     details: ["Piment habanero", "Très très piquant", "Déconseillé aux enfants"],
     rating: 4.3,
     stock: 6,
@@ -216,7 +250,8 @@ export const products: Product[] = [
     spice: 0,
     color: "#FF7A59",
     emoji: "🍠",
-    description: "Des tranches de patate douce cuites au four : naturellement sucrées, 40 % de matières grasses en moins.",
+    description:
+      "Des tranches de patate douce cuites au four : naturellement sucrées, 40 % de matières grasses en moins.",
     details: ["Cuites au four", "−40 % de matières grasses", "Sans gluten"],
     rating: 4.4,
     stock: 36,
@@ -263,7 +298,8 @@ export const products: Product[] = [
     spice: 1,
     color: "#FF5C8A",
     emoji: "🎁",
-    description: "Six saveurs pour faire le tour de la maison : sel de mer, paprika, crème & oignon, barbecue, vinaigre et truffe.",
+    description:
+      "Six saveurs pour faire le tour de la maison : sel de mer, paprika, crème & oignon, barbecue, vinaigre et truffe.",
     details: ["6 sachets de 150 g", "Une saveur de chaque univers", "Idéale à offrir"],
     rating: 4.9,
     stock: 20,
@@ -279,7 +315,8 @@ export const products: Product[] = [
     spice: 2,
     color: "#3D7BFF",
     emoji: "🎉",
-    description: "Douze sachets pour tenir toute la soirée, des plus douces aux plus piquantes. Les invités repartent contents.",
+    description:
+      "Douze sachets pour tenir toute la soirée, des plus douces aux plus piquantes. Les invités repartent contents.",
     details: ["12 sachets de 150 g", "Mélange doux & relevé", "Livré dans une boîte cadeau"],
     rating: 4.8,
     stock: 12,

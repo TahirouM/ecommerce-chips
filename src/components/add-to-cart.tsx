@@ -13,7 +13,7 @@ export function AddToCart({ slug, stock }: { slug: string; stock: number }) {
 
   if (stock === 0) {
     return (
-      <button disabled className="btn mt-8 w-full bg-soft">
+      <button disabled className="mt-8 btn w-full bg-soft">
         Indisponible pour le moment
       </button>
     );

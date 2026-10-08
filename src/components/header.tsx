@@ -34,7 +34,10 @@ export function Header() {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-4">
-            <Link href="/produits" className="text-sm font-semibold whitespace-nowrap underline-offset-4 hover:underline lg:hidden">
+            <Link
+              href="/produits"
+              className="text-sm font-semibold whitespace-nowrap underline-offset-4 hover:underline lg:hidden"
+            >
               La boutique
             </Link>
             <CartLink />
