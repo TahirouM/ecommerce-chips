@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/add-to-cart";
+import { FavoriteButton } from "@/components/favorite-button";
 import { ProductVisual } from "@/components/chip-bag";
 import { Badge, Price, ProductGrid } from "@/components/product-card";
 import { formatWeight, getCategory, getProduct, pricePerKg, products, SPICE_LABELS } from "@/lib/products";
@@ -52,7 +53,10 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
         </div>
 
         <div>
-          <h1 className="font-display text-4xl font-extrabold sm:text-5xl">{product.name}</h1>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="font-display text-4xl font-extrabold sm:text-5xl">{product.name}</h1>
+            <FavoriteButton slug={product.slug} name={product.name} className="mt-1 size-12 text-2xl" />
+          </div>
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
             <Price product={product} className="text-2xl" />
             <span className="text-sm text-muted">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { categories, formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/products";
 import { AccountLink } from "./account-link";
 import { CartLink } from "./cart-link";
+import { FavoritesLink } from "./favorites-link";
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
@@ -12,6 +13,11 @@ export function Logo({ className = "" }: { className?: string }) {
     </span>
   );
 }
+
+const NAV = [
+  { href: "/produits", name: "Tout" },
+  ...categories.map((c) => ({ href: `/categories/${c.slug}`, name: c.name })),
+];
 
 export function Header() {
   return (
@@ -25,27 +31,29 @@ export function Header() {
           <Link href="/" aria-label="Accueil">
             <Logo />
           </Link>
-          <nav className="hidden gap-1 text-sm font-semibold lg:flex">
-            <Link href="/produits" className="rounded-full px-3 py-1.5 hover:bg-primary">
-              Tout
-            </Link>
-            {categories.map((c) => (
-              <Link key={c.slug} href={`/categories/${c.slug}`} className="rounded-full px-3 py-1.5 hover:bg-primary">
-                {c.name}
+          <nav aria-label="Univers" className="hidden gap-1 text-sm font-semibold lg:flex">
+            {NAV.map((l) => (
+              <Link key={l.href} href={l.href} className="rounded-full px-3 py-1.5 hover:bg-primary">
+                {l.name}
               </Link>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-1 sm:gap-3">
-            <Link
-              href="/produits"
-              className="text-sm font-semibold whitespace-nowrap underline-offset-4 hover:underline lg:hidden"
-            >
-              Boutique
-            </Link>
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
+            <FavoritesLink />
             <AccountLink />
             <CartLink />
           </div>
         </div>
+        {/* Sur mobile, les univers passent sur une ligne défilante sous la barre principale. */}
+        <nav aria-label="Univers" className="border-t border-foreground/15 lg:hidden">
+          <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-3 py-2 text-sm font-semibold">
+            {NAV.map((l) => (
+              <Link key={l.href} href={l.href} className="shrink-0 rounded-full px-3 py-1 hover:bg-primary">
+                {l.name}
+              </Link>
+            ))}
+          </div>
+        </nav>
       </div>
     </header>
   );
