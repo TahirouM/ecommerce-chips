@@ -41,7 +41,12 @@ export function Catalog({ products }: { products: Product[] }) {
         />
         <div className="flex flex-wrap gap-2">
           {[{ slug: "all", name: "Tout", emoji: "✨" }, ...categories].map((c) => (
-            <button key={c.slug} onClick={() => setCategory(c.slug)} aria-pressed={category === c.slug} className={chip}>
+            <button
+              key={c.slug}
+              onClick={() => setCategory(c.slug)}
+              aria-pressed={category === c.slug}
+              className={chip}
+            >
               {c.emoji} {c.name}
             </button>
           ))}

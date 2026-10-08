@@ -15,7 +15,7 @@ export function CartView() {
       <div className="py-24 text-center">
         <p className="text-6xl">🥔</p>
         <p className="mt-4 text-lg text-muted">Votre panier est vide… pas pour longtemps ?</p>
-        <Link href="/produits" className="btn mt-8 bg-primary">
+        <Link href="/produits" className="mt-8 btn bg-primary">
           Choisir mes chips
         </Link>
       </div>
@@ -55,7 +55,7 @@ export function CartView() {
         ))}
       </ul>
       <OrderSummary>
-        <Link href="/commande" className="btn mt-6 w-full bg-primary">
+        <Link href="/commande" className="mt-6 btn w-full bg-primary">
           Passer commande →
         </Link>
       </OrderSummary>

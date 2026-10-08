@@ -6,7 +6,7 @@ export default function NotFound() {
       <p className="text-7xl">🫥</p>
       <h1 className="mt-6 font-display text-4xl font-extrabold">Oups, sachet vide !</h1>
       <p className="mt-4 text-lg text-muted">Cette page (ou cette saveur) n&apos;existe pas, ou plus.</p>
-      <Link href="/produits" className="btn mt-8 bg-primary">
+      <Link href="/produits" className="mt-8 btn bg-primary">
         Retour à la boutique
       </Link>
     </div>

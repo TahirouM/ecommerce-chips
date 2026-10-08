@@ -10,8 +10,18 @@ const HERO_BAGS = [
 ];
 
 const PERKS = [
-  { emoji: "🥔", title: "Pommes de terre françaises", text: "Sélectionnées chez des producteurs des Hauts-de-France.", color: "bg-primary" },
-  { emoji: "🔥", title: "Cuites en petits lots", text: "Au chaudron, pour un croustillant épais et irrégulier.", color: "bg-orange" },
+  {
+    emoji: "🥔",
+    title: "Pommes de terre françaises",
+    text: "Sélectionnées chez des producteurs des Hauts-de-France.",
+    color: "bg-primary",
+  },
+  {
+    emoji: "🔥",
+    title: "Cuites en petits lots",
+    text: "Au chaudron, pour un croustillant épais et irrégulier.",
+    color: "bg-orange",
+  },
   { emoji: "♻️", title: "Sachets recyclables", text: "Un emballage mono-matériau, sans aluminium.", color: "bg-green" },
 ];
 
@@ -26,7 +36,7 @@ export default function Home() {
           <p className="inline-block rotate-[-2deg] rounded-full border-2 border-foreground bg-accent px-4 py-1 text-sm font-bold text-accent-foreground shadow-pop-sm">
             Nouvelles saveurs 🎉
           </p>
-          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl">
+          <h1 className="mt-6 font-display text-5xl leading-[0.95] font-extrabold tracking-tight sm:text-6xl md:text-7xl">
             Ça croque.
             <br />
             <span className="relative isolate inline-block">
@@ -35,8 +45,8 @@ export default function Home() {
             </span>
           </h1>
           <p className="mt-6 max-w-md text-lg text-muted">
-            Des chips artisanales cuites en petits lots, en France. Classiques, relevées, gourmandes ou légères :
-            il y a forcément un sachet pour vous.
+            Des chips artisanales cuites en petits lots, en France. Classiques, relevées, gourmandes ou légères : il y a
+            forcément un sachet pour vous.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link href="/produits" className="btn bg-primary">
@@ -57,14 +67,14 @@ export default function Home() {
               <Link
                 key={slug}
                 href={`/produits/${slug}`}
-                className={`animate-float absolute ${className}`}
+                className={`absolute animate-float ${className}`}
                 style={{ animationDelay: delay }}
               >
                 <ChipBag product={product} className="w-full drop-shadow-[6px_8px_0_rgba(26,26,46,0.25)]" />
               </Link>
             );
           })}
-          <span className="absolute -bottom-2 right-2 z-20 rotate-[8deg] rounded-full border-2 border-foreground bg-surface px-4 py-2 text-center font-display text-sm font-extrabold leading-tight shadow-pop">
+          <span className="absolute right-2 -bottom-2 z-20 rotate-[8deg] rounded-full border-2 border-foreground bg-surface px-4 py-2 text-center font-display text-sm leading-tight font-extrabold shadow-pop">
             dès {formatPrice(Math.min(...products.map((p) => p.price)))}
             <br />
             le sachet
@@ -73,7 +83,7 @@ export default function Home() {
       </section>
 
       <div className="overflow-hidden border-y-2 border-foreground bg-accent py-3 text-accent-foreground" aria-hidden>
-        <div className="animate-marquee flex w-max font-display text-xl font-extrabold whitespace-nowrap">
+        <div className="flex w-max animate-marquee font-display text-xl font-extrabold whitespace-nowrap">
           {[...flavors, ...flavors].map((f, i) => (
             <span key={i} className="flex items-center gap-8 pr-8">
               {f}
@@ -119,7 +129,9 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-3">
           {PERKS.map((p) => (
             <div key={p.title} className="rounded-2xl border-2 border-foreground bg-surface p-6 shadow-pop">
-              <span className={`inline-flex size-14 items-center justify-center rounded-full border-2 border-foreground text-2xl ${p.color}`}>
+              <span
+                className={`inline-flex size-14 items-center justify-center rounded-full border-2 border-foreground text-2xl ${p.color}`}
+              >
                 {p.emoji}
               </span>
               <p className="mt-4 font-display text-xl font-extrabold">{p.title}</p>
@@ -132,12 +144,14 @@ export default function Home() {
       <section className="mx-auto mt-24 max-w-6xl px-4">
         <div className="relative overflow-hidden rounded-3xl border-2 border-foreground bg-blue px-6 py-12 text-white shadow-pop-lg sm:px-12">
           <div className="max-w-lg">
-            <h2 className="font-display text-3xl font-extrabold sm:text-5xl">Soirée prévue ? On s&apos;occupe de l&apos;apéro.</h2>
+            <h2 className="font-display text-3xl font-extrabold sm:text-5xl">
+              Soirée prévue ? On s&apos;occupe de l&apos;apéro.
+            </h2>
             <p className="mt-4 text-lg text-white/85">
               12 sachets, du plus doux au plus piquant, livrés dans une boîte cadeau. Et la livraison est offerte dès{" "}
               {formatPrice(FREE_SHIPPING_THRESHOLD)}.
             </p>
-            <Link href="/produits/pack-soiree" className="btn mt-8 bg-primary text-foreground">
+            <Link href="/produits/pack-soiree" className="mt-8 btn bg-primary text-foreground">
               🎉 Voir le pack soirée
             </Link>
           </div>

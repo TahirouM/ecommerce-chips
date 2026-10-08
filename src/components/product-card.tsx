@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
           className="aspect-square border-b-2 border-foreground"
           bagClassName="transition duration-300 group-hover:-rotate-6 group-hover:scale-105"
         />
-        <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+        <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
           {soldOut ? (
             <Badge className="bg-foreground text-background">Épuisé</Badge>
           ) : (
@@ -25,7 +25,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         {product.spice > 0 && (
           <span
-            className="absolute right-3 top-3 rounded-full border-2 border-foreground bg-surface px-2 py-0.5 text-xs"
+            className="absolute top-3 right-3 rounded-full border-2 border-foreground bg-surface px-2 py-0.5 text-xs"
             title={SPICE_LABELS[product.spice]}
           >
             {"🌶️".repeat(product.spice)}
@@ -34,7 +34,10 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
-          <Link href={`/produits/${product.slug}`} className="font-display text-lg font-bold leading-tight hover:underline">
+          <Link
+            href={`/produits/${product.slug}`}
+            className="font-display text-lg leading-tight font-bold hover:underline"
+          >
             {product.name}
           </Link>
           <p className="mt-0.5 text-xs text-muted">
@@ -62,7 +65,9 @@ export function Price({ product, className = "text-sm" }: { product: Product; cl
   return (
     <p className={`shrink-0 font-bold tabular-nums ${className}`}>
       {product.compareAtPrice && (
-        <span className="mr-2 text-[0.8em] font-medium text-muted line-through">{formatPrice(product.compareAtPrice)}</span>
+        <span className="mr-2 text-[0.8em] font-medium text-muted line-through">
+          {formatPrice(product.compareAtPrice)}
+        </span>
       )}
       <span className={product.compareAtPrice ? "text-sale" : undefined}>{formatPrice(product.price)}</span>
     </p>

@@ -1,0 +1,29 @@
+name: 🐛 Bug
+description: Un comportement inattendu sur le site
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: actual
+    attributes:
+      label: Ce qui se passe
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ce qui devrait se passer
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      placeholder: |
+        1. Aller sur /produits
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Navigateur et appareil

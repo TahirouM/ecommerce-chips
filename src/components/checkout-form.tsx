@@ -24,7 +24,7 @@ export function CheckoutForm() {
     return (
       <div className="py-24 text-center">
         <p className="text-muted">Votre panier est vide.</p>
-        <Link href="/produits" className="btn mt-8 bg-primary">
+        <Link href="/produits" className="mt-8 btn bg-primary">
           Retour à la boutique
         </Link>
       </div>
@@ -54,14 +54,27 @@ export function CheckoutForm() {
       <div className="space-y-10">
         <fieldset className="space-y-4">
           <legend className="mb-4 font-display text-xl font-extrabold">Contact</legend>
-          <input name="email" type="email" required placeholder="Adresse e-mail" autoComplete="email" className={input} />
+          <input
+            name="email"
+            type="email"
+            required
+            placeholder="Adresse e-mail"
+            autoComplete="email"
+            className={input}
+          />
         </fieldset>
 
         <fieldset className="grid gap-4 sm:grid-cols-2">
           <legend className="mb-4 font-display text-xl font-extrabold">Adresse de livraison</legend>
           <input name="firstName" required placeholder="Prénom" autoComplete="given-name" className={input} />
           <input name="lastName" required placeholder="Nom" autoComplete="family-name" className={input} />
-          <input name="address" required placeholder="Adresse" autoComplete="street-address" className={`${input} sm:col-span-2`} />
+          <input
+            name="address"
+            required
+            placeholder="Adresse"
+            autoComplete="street-address"
+            className={`${input} sm:col-span-2`}
+          />
           <input
             name="zip"
             required
@@ -118,11 +131,7 @@ export function CheckoutForm() {
             </li>
           ))}
         </ul>
-        <button
-          type="submit"
-          disabled={submitting}
-          className="btn mt-6 w-full bg-primary"
-        >
+        <button type="submit" disabled={submitting} className="mt-6 btn w-full bg-primary">
           {submitting ? "Validation…" : `Valider la commande · ${formatPrice(subtotal + shipping)}`}
         </button>
       </OrderSummary>

@@ -87,7 +87,10 @@ export function ProductVisual({
       className={`relative flex items-center justify-center overflow-hidden ${className}`}
       style={{ backgroundColor: `${product.color}2e` }}
     >
-      <ChipBag product={product} className={`h-[82%] w-auto drop-shadow-[4px_6px_0_rgba(26,26,46,0.18)] ${bagClassName}`} />
+      <ChipBag
+        product={product}
+        className={`h-[82%] w-auto drop-shadow-[4px_6px_0_rgba(26,26,46,0.18)] ${bagClassName}`}
+      />
     </div>
   );
 }

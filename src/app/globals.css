@@ -59,7 +59,9 @@
   font-weight: 700;
   font-size: 0.95rem;
   box-shadow: 4px 4px 0 var(--foreground);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
   cursor: pointer;
   &:hover:not(:disabled) {
     transform: translate(-2px, -2px);
